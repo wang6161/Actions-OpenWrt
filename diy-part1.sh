@@ -39,6 +39,9 @@
 # 全新的[argon-主题]此主题玩法很多,这里看说明【https://github.com/jerrykuku/luci-theme-argon/blob/18.06/README_ZH.md】
 # 用WinSCP连接openwrt，在/www/luci-static/argon里面创建background文件夹（如果本身就有background就不需要创建）来存放jpg png gif格式图片可以自定义登陆界面，gif图片为动态登陆界面
 
+### 修改DTS的ubi为238MB的0xee00000>
+#sed -i 's/reg = <0x580000 0x7200000>/reg = <0x580000 0xee00000>/' target/linux/mediatek/files-5.4/arch/arm64/boot/dts/mediatek/mt7981-cmcc-rax3000m.dts
+
 # 添加第三方应用
 mkdir kiddin9
 pushd kiddin9
@@ -168,18 +171,23 @@ mkdir luci-app-argon-config
 cp -rf ../kiddin9/luci-app-argon-config/* luci-app-argon-config
 
 # iStore应用
-mkdir taskd
-mkdir luci-lib-taskd
-mkdir luci-lib-xterm
-mkdir luci-app-store
-mkdir quickstart
-mkdir luci-app-quickstart
-cp -rf ../kiddin9/taskd/* taskd
-cp -rf ../kiddin9/luci-lib-taskd/* luci-lib-taskd
-cp -rf ../kiddin9/luci-lib-xterm/* luci-lib-xterm
-cp -rf ../kiddin9/luci-app-store/* luci-app-store
-cp -rf ../kiddin9/quickstart/* quickstart
-cp -rf ../kiddin9/luci-app-quickstart/* luci-app-quickstart
+#rm -rf ../package/istore/
+rm -rf ../package/istore/quickstart
+mkdir ./istore/quickstart
+#mkdir taskd
+#mkdir luci-lib-taskd
+#mkdir luci-lib-xterm
+#mkdir luci-app-store
+#mkdir quickstart
+#mkdir luci-app-quickstart
+#cp -rf ../kiddin9/taskd/* taskd
+#cp -rf ../kiddin9/luci-lib-taskd/* luci-lib-taskd
+#cp -rf ../kiddin9/luci-lib-xterm/* luci-lib-xterm
+#cp -rf ../kiddin9/luci-app-store/* luci-app-store
+cp -rf ../kiddin9/luci-app-store/src/key-build.pub ./istore/luci-app-store/luci/luci-app-store/src/
+#cp -rf ../kiddin9/quickstart/* quickstart
+cp -rf ../kiddin9/quickstart/* ../package/istore/quickstart
+#cp -rf ../kiddin9/luci-app-quickstart/* luci-app-quickstart
 
 # 5G通信模组拨号工具
 mkdir quectel_QMI_WWAN
@@ -194,6 +202,7 @@ cp -rf ../Modem-Support/quectel_cm_5G/* quectel_cm_5G
 # cp -rf ../Modem-Support/luci-app-hypermodem/* luci-app-hypermodem
 
 # 5G模组短信插件
+rm -rf ../package/luci-app-sms-tool
 mkdir sms-tool
 mkdir luci-app-sms-tool
 cp -rf ../Modem-Support/sms-tool/* sms-tool
@@ -212,3 +221,4 @@ cp -rf ../Modemfeed/luci/protocols/luci-proto-fm350/* luci-proto-fm350
 mkdir fm350-modem
 cp -rf ../Modemfeed/packages/net/fm350-modem/* fm350-modem
 popd
+
